@@ -59,4 +59,4 @@ async function displayWeather() {
     }
 };
 
-btn.addEventListener('click', displayWeather)
+btn.addEventListener('click', displayWeather);
