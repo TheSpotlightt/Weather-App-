@@ -40,7 +40,7 @@ inputKey.addEventListener('keyup', (event) => {
 });
 
 // Create a list to store the localStorage data
-function paraMaker(text) {
+function liMaker(text) {
     const li = document.createElement('li');
     li.textContent = text
     ul.appendChild(li)
@@ -100,7 +100,7 @@ async function displayWeather() {
 
 // Displaying the stored data in localStorage
 data.forEach(element => {
-    paraMaker(element)
+    liMaker(element)
 });
 
 
