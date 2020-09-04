@@ -46,24 +46,25 @@ function liMaker(text) {
     ul.appendChild(li)
 }
 
+
+
 async function displayWeather() {
     let search = input.value.toLowerCase();
+
     const weather = fetchAndDecode(`http://api.weatherapi.com/v1/current.json?key=4315ea41a7154405934153414200109&q=${search}`, 'json');
     const weatherConditions = fetchAndDecode(`weather_conditions.json`, 'text');
 
-
-    const weatherPromise = await Promise.all([weather]);
-    const weatherConditionsPromise = await Promise.all([weatherConditions]);
+    const weatherPromise = await Promise.all([weather]);    
     
+    const weatherConditionsPromise = await Promise.all([weatherConditions]);
     const weatherConditionsStr = JSON.parse(weatherConditionsPromise);
 
-    console.log(weatherConditionsStr);
     
     for(let j = 0; j < weatherConditionsStr.length; j++) {
         const code = weatherConditionsStr[j].code;
         const day = weatherConditionsStr[j].day;
         const night = weatherConditionsStr[j].night;
-        
+    
         for(let i = 0; i < weatherPromise.length; i++) {
             const temp = weatherPromise[i].current.temp_c;
             const place = weatherPromise[i].location.name;
@@ -82,12 +83,12 @@ async function displayWeather() {
             } else if (conditions === day) {
                 paraIcons.textContent = day;
             }
-        }
-        
-    }
 
-    // creating the localStorage
-    if(typeof(Storage) !== 'undefined') {
+        }
+    }
+        
+        // creating the localStorage
+        if(typeof(Storage) !== 'undefined') {
         populateStorage()
     }
     
@@ -95,8 +96,9 @@ async function displayWeather() {
         itemsArray.push(para.textContent);
         localStorage.setItem('para', JSON.stringify(itemsArray));
     }
-};
+    // autocomplete(document.getElementById('searcher'), weatherSearchPromise)
 
+};
 
 // Displaying the stored data in localStorage
 data.forEach(element => {
