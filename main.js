@@ -5,6 +5,7 @@ const para = document.querySelector('p');
 const ul = document.querySelector('ul')
 const btnDelete = document.querySelector('.delete');
 const paraIcons = document.querySelector('.para-icons');
+const paraComplete = document.querySelector('.complete')
 
 // Retrieving para data and storing in an array
 let itemsArray = localStorage.getItem('para') ? JSON.parse(localStorage.getItem('para')) : [];
@@ -39,6 +40,7 @@ inputKey.addEventListener('keyup', (event) => {
     }
 });
 
+
 // Create a list to store the localStorage data
 function liMaker(text) {
     const li = document.createElement('li');
@@ -48,23 +50,18 @@ function liMaker(text) {
 
 
 
+
 async function displayWeather() {
     let search = input.value.toLowerCase();
-    const weatherSearch = fetchAndDecode(`http://api.weatherapi.com/v1/search.json?key=4315ea41a7154405934153414200109&q=${search}`, 'json');
     const weather = fetchAndDecode(`http://api.weatherapi.com/v1/current.json?key=4315ea41a7154405934153414200109&q=${search}`, 'json');
     const weatherConditions = fetchAndDecode(`weather_conditions.json`, 'text');
 
     const weatherPromise = await Promise.all([weather]);    
     const weatherConditionsPromise = await Promise.all([weatherConditions]);
-    const weatherSearchPromise = await Promise.all([weatherSearch]);
+
     const weatherConditionsStr = JSON.parse(weatherConditionsPromise);
 
-    console.log(weatherSearch);
-    //Trying to make an auto complete input
-    weatherSearchPromise.forEach((val) => {
-        console.log(val);
-    })
-    
+
     for(let j = 0; j < weatherConditionsStr.length; j++) {
         const code = weatherConditionsStr[j].code;
         const day = weatherConditionsStr[j].day;
@@ -104,6 +101,18 @@ async function displayWeather() {
 };
 
 
+async function autoComplete() {
+    let search = input.value.toLowerCase();
+
+    const weatherSearch = fetchAndDecode(`http://api.weatherapi.com/v1/search.json?key=4315ea41a7154405934153414200109&q=${search}`, 'json');
+    const weatherSearchPromise = await Promise.all([weatherSearch]);
+    
+    weatherSearchPromise[i].forEach((val) => {
+        console.log(val.name)
+        paraComplete.textContent = val.name
+    })
+
+}
 
 // Displaying the stored data in localStorage
 data.forEach(element => {
