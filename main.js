@@ -104,7 +104,7 @@ async function displayWeather() {
 };
 
 
-async function autoComplete() { // It´s working but not 100%, there is a bug that i have no idea how to solve it, but i´m trying.
+async function autoComplete() { // It´s working but not 100%, to work i need to call the function, but it causes bug and i have no idea how to solve it, but i´m trying.
     let searchLocation = input.value.toLowerCase();
 
     const weatherSearch = fetchAndDecode(`https://api.weatherapi.com/v1/search.json?key=4315ea41a7154405934153414200109&q=${searchLocation}`, 'json');
