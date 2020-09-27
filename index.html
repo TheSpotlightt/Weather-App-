@@ -13,7 +13,7 @@
     </header>
 
     <div>
-        <input type="text" name="searchCity" id="searcher" placeholder="Enter a City">
+        <input type="search" name="searchCity" id="searcher" placeholder="Enter a City" list="local-suggestion">
         <button id="btn">Search</button>
         <p></p>
         <p class="para-icons"></p>
@@ -21,6 +21,9 @@
         <ul></ul>
     </div>
     
+    <datalist id="local-suggestion">
+
+    </datalist>
     <button class="delete">X</button>
 </body>
 </html>

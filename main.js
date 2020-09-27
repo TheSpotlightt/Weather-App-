@@ -2,10 +2,14 @@ const input = document.querySelector('input');
 const btn = document.querySelector('button');
 const inputKey = document.getElementById('searcher');
 const para = document.querySelector('p');
-const ul = document.querySelector('ul')
+const ul = document.querySelector('ul');
+
 const btnDelete = document.querySelector('.delete');
 const paraIcons = document.querySelector('.para-icons');
-const paraComplete = document.querySelector('.complete')
+
+
+const suggestion = document.querySelector('#local-suggestion');
+
 
 // Retrieving para data and storing in an array
 let itemsArray = localStorage.getItem('para') ? JSON.parse(localStorage.getItem('para')) : [];
@@ -53,14 +57,13 @@ function liMaker(text) {
 
 async function displayWeather() {
     let search = input.value.toLowerCase();
-    const weather = fetchAndDecode(`http://api.weatherapi.com/v1/current.json?key=4315ea41a7154405934153414200109&q=${search}`, 'json');
+    const weather = fetchAndDecode(`https://api.weatherapi.com/v1/current.json?key=4315ea41a7154405934153414200109&q=${search}`, 'json');
     const weatherConditions = fetchAndDecode(`weather_conditions.json`, 'text');
 
     const weatherPromise = await Promise.all([weather]);    
     const weatherConditionsPromise = await Promise.all([weatherConditions]);
 
     const weatherConditionsStr = JSON.parse(weatherConditionsPromise);
-
 
     for(let j = 0; j < weatherConditionsStr.length; j++) {
         const code = weatherConditionsStr[j].code;
@@ -101,18 +104,26 @@ async function displayWeather() {
 };
 
 
-async function autoComplete() {
-    let search = input.value.toLowerCase();
+async function autoComplete() { // It´s working but not 100%, there is a bug that i have no idea how to solve it, but i´m trying.
+    let searchLocation = input.value.toLowerCase();
 
-    const weatherSearch = fetchAndDecode(`http://api.weatherapi.com/v1/search.json?key=4315ea41a7154405934153414200109&q=${search}`, 'json');
+    const weatherSearch = fetchAndDecode(`https://api.weatherapi.com/v1/search.json?key=4315ea41a7154405934153414200109&q=${searchLocation}`, 'json');
     const weatherSearchPromise = await Promise.all([weatherSearch]);
-    
-    weatherSearchPromise[i].forEach((val) => {
-        console.log(val.name)
-        paraComplete.textContent = val.name
-    })
 
+
+    for(let i = 0; i < weatherSearchPromise.length; i++) {
+        console.log(weatherSearchPromise[i]);
+        weatherSearchPromise[i].forEach((val) => {
+            console.log(val)
+            const opt = document.createElement('option');
+            suggestion.appendChild(opt);
+
+            opt.textContent = val.name;
+        })
+    }
 }
+
+// autoComplete()
 
 // Displaying the stored data in localStorage
 data.forEach(element => {
